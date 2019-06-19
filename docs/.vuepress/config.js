@@ -1,8 +1,8 @@
 module.exports = {
   title: '加油站', // 设置网站标题
   dest: './dist', // 设置输出目录
-  base: '/gok-frontdevelopment/', // 设置站点根路径
-  repo: 'https://github.com/zhdarry', // 添加 github 链接
+  base: '/gok-frontend/', // 设置站点根路径
+  repo: 'https://github.com/zhdarry/gok-frontend', // 添加 github 链接
   head: [
     ['link', {
       rel: 'icon',
@@ -27,27 +27,27 @@ module.exports = {
           },
           {
             text: '秦林',
-            link: '/zhdarry/'
+            link: '/qinlin/'
           },
           {
             text: '王莹',
-            link: '/zhdarry/'
+            link: '/wangying/'
           },
           {
             text: '张雪',
-            link: '/zhdarry/'
+            link: '/zhangxue/'
           },
           {
             text: '谢鹏',
-            link: '/zhdarry/'
+            link: '/xiepeng/'
           },
           {
             text: '苟金贵',
-            link: '/zhdarry/'
+            link: '/goujingui/'
           },
           {
             text: '杨朝军',
-            link: '/zhdarry/'
+            link: '/yangchaojun/'
           }
         ]
       },
