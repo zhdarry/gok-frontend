@@ -62,7 +62,7 @@ module.exports = {
         ]
       }],
       '/liuyao/': [{
-        title: '高大帅气的刘大哥', // 显示的节点名称
+        title: '風のような男', // 显示的节点名称
         children: []
       }],
       '/css/': [{
