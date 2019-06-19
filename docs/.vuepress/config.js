@@ -68,7 +68,7 @@ module.exports = {
           '/share/zhdarry/two'
         ]
       }, {
-        title: "高大帅气的刘大哥"
+        title: "風のような男"
       },],
       '/standard': [{ //文档规范
 
