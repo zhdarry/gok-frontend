@@ -1,4 +1,4 @@
-# 7 个实用的 vue 开发 tips
+# 5 个实用的 vue 开发 tips
 ## 用Object.freeze()做长列表优化
 > 冻结一个对象。一个被冻结的对象再也不能被修改；冻结了一个对象则不能向这个对象添加新的属性，不能删除已有属性，不能修改该对象已有属性的可枚举性、可配置性、可写性，以及不能修改已有属性的值。此外，冻结一个对象后该对象的原型也不能被修改。  
 
@@ -104,4 +104,119 @@ export default{
 </script>
 ```
 ## 使用v-slot作用域插槽
-作用域插槽是项目中使用情况较多的场景，在vue 2.6+版本后弃用的原有的slot和slot-scope特效
+作用域插槽是项目中使用情况较多的场景，在vue 2.6+版本后弃用的原有的slot和slot-scope特性。  
+我们在定义一组业务组件时，应当分为两部分，基础布局组件A，只负责布局，不管数据逻辑，然后另外定义一个组件B 负责数据处理，布局组件A 需要数据的时候就去 B 里面去取。假设，某一天我们的布局变了，我们只需要去修改组件A 就行，而不用去修改组件B，从而就能充分复用组件B 的数据处理逻辑。
+首先我们有一个子组件用来动态绑定user的数据
+``` html
+<span>
+    <slot v-bind:user="user">
+        {{ user.lastName }}
+    </slot>
+</span>
+```
+之后在我们的父组件`current-user`中提供插槽prop名字
+``` html
+<current-user>
+    <template v-slot:default="slotProps">
+        {{ slotProps.user.firstName }}
+    </template>
+</current-user>
+```
+此外，这种还有简写写法，针对单个插槽使用，可以查看[独占插槽的缩写语法](https://cn.vuejs.org/v2/guide/components-slots.html#%E7%8B%AC%E5%8D%A0%E9%BB%98%E8%AE%A4%E6%8F%92%E6%A7%BD%E7%9A%84%E7%BC%A9%E5%86%99%E8%AF%AD%E6%B3%95)。
+``` html
+<current-user v-slot="slotProps">
+    {{ slotProps.user.firstName }}
+</current-user>
+```
+
+## 属性事件传递 $attrs 与 $listeners
+在vue2.4中新增了三个api：
+> **$attrs**  
+包含了父作用域中不被认为 (且不预期为) props 的特性绑定 (class 和 style 除外)。当一个组件没有声明任何 props 时，这里会包含所有父作用域的绑定 (class 和 style 除外)，并且可以通过 v-bind=”$attrs” 传入内部组件——在创建更高层次的组件时非常有用。  
+
+> **$listeners**  
+包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。它可以通过 v-on=”$listeners” 传入内部组件——在创建更高层次的组件时非常有用。  
+
+> **inheritAttrs**
+默认情况下父作用域的不被认作 props 的特性绑定 (attribute bindings) 将会“回退”且作为普通的 HTML 特性应用在子组件的根元素上。当撰写包裹一个目标元素或另一个组件的组件时，这可能不会总是符合预期行为。通过设置 inheritAttrs 到 false，这些默认行为将会被去掉。而通过 (同样是 2.4 新增的) 实例属性 $attrs 可以让这些特性生效，且可以通过 v-bind 显性的绑定到非根元素上。  
+ 
+举个例子，A>B>C三个组件传递属性和方法，C接收到A传递过来的多个属性，A响应C处理的事件。
+``` html
+<!-- Components A -->
+<template>
+    <div>
+        <child-b :attr1="attr1" :attr2="atte2" @listener1="test1()" @listener2="test2()">
+            ...
+        </child-b>
+    </div>
+</template>
+<script>
+    import ChildB from './ChildB';
+    export default {
+        data(){
+            return {
+                attr1: "zz",
+                attr2: "rr",
+            }
+        },
+        components:[ChildB],
+        methods:{
+            test1(){
+                console.log("触发爷爷事件")
+            },
+        }
+    }
+</script>
+```
+``` html
+<!-- Components B -->
+<template>
+    <div>
+        <child-c v-bind="$attrs" v-on="$listeners">
+            ...
+        </child-c>
+    </div>
+</template>
+<script>
+    import ChildC from './ChildC';
+    export default {
+        props：["attr2"], //将接收rr
+        components:{ChildC},
+        inheritAttrs：false //组件传值一般是通过props传值的。inheritAttrs默认值为true，true的意思是将父组件中除了props外的属性添加到子组件的根节点上(说明，即使设置为true，子组件仍然可以通过$attr获取到props意外的属性)。
+    }
+</script>
+```
+``` html
+<!-- Components C -->
+<template>
+    <div>
+        <p>{{ attr1 }}</p> <!-- 输入zz -->
+        <p>{{ attr2 }}</p> <!-- 输入rr -->
+        <button click="$emit("listeners1")"></button> <!-- 向外传递方法 -->
+    </div>
+</template>
+```
+## 监听组件的生命周期
+比如有父组件 Parent和子组件 Child，如果父组件监听到子组件挂载 mounted就做一些逻辑处理，常规的写法可能如下：
+``` html
+<!-- Parent.vue -->
+<Child @mounted="doSomething" />
+
+<!-- Child.vue -->
+<template>
+    ...
+</template>
+<script>
+    mounted(){
+        this.$emit("mounted");
+    }
+</script>
+```
+这里提供一种特别简单的方式，子组件不需要任何处理，只需要在父组件引用的时候通过 @hook来监听即可，适用于在某些子组件加载完成后监听反馈。代码重写如下：
+``` html
+<Child @hook:mounted="doSomething" />
+```
+这里不仅仅是可以监听 mounted，其它的生命周期事件，例如： created， updated等都可以哦！
+
+
+
