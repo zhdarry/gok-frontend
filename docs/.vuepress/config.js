@@ -29,7 +29,7 @@ module.exports = {
           },
           {
             text: '刘尧',
-            link:'/share/liuyao/'
+            link:'/share/サイドの妖刀劉小妖/'
           },
           {
             text: '秦林',
@@ -68,8 +68,11 @@ module.exports = {
           '/share/zhdarry/two'
         ]
       }, {
-        title: "風のような男"
-      },],
+        title: "風のような男",
+        children:[
+            '/share/サイドの妖刀劉小妖/react1'
+        ]
+      }],
       '/standard': [{ //文档规范
 
       }]
