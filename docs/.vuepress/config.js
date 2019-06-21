@@ -66,7 +66,7 @@ module.exports = {
     sidebar: {
       '/share/': [
         '',{
-        title: "潇洒迷人的张大瑞",
+        title: "嘤嘤怪张大瑞",
         collapsable: false,
         children:[
           '/share/zhdarry/one',
