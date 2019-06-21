@@ -57,6 +57,10 @@ module.exports = {
           }
         ]
       },
+      {
+        text: 'Github',
+        link: 'https://github.com/zhdarry/gok-frontend'
+      }
     ],
     // 为以下路由添加侧边栏
     sidebar: {
