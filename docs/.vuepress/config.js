@@ -58,7 +58,7 @@ module.exports = {
         ]
       },
       {
-        text: 'Github',
+        text: 'GitHub',
         link: 'https://github.com/zhdarry/gok-frontend'
       }
     ],
@@ -67,6 +67,7 @@ module.exports = {
       '/share/': [
         '',{
         title: "潇洒迷人的张大瑞",
+        collapsable: false,
         children:[
           '/share/zhdarry/one',
           '/share/zhdarry/two'
