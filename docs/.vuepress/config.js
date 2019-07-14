@@ -53,7 +53,7 @@ module.exports = {
                     },
                     {
                         text: '杨朝军',
-                        link: '/share//yangchaojun/'
+                        link: '/share/yangcj/'
                     }
                 ]
             },
@@ -83,6 +83,12 @@ module.exports = {
                         '/share/qinlin/js',
                         '/share/qinlin/vue',
                         '/share/qinlin/css'
+                    ]
+                }, {
+                    title: "杨朝军",
+                    children: [
+                        '/share/yangcj/one',
+                        '/share/yangcj/two'
                     ]
                 }
             ],
