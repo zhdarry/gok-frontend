@@ -88,7 +88,8 @@ module.exports = {
                     title: "杨朝军",
                     children: [
                         '/share/yangcj/one',
-                        '/share/yangcj/two'
+                        '/share/yangcj/two',
+                        '/share/yangcj/three'
                     ]
                 }
             ],
