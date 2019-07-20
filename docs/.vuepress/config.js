@@ -49,7 +49,7 @@ module.exports = {
                     },
                     {
                         text: '苟金贵',
-                        link: '/share//goujingui/'
+                        link: '/share/goujg/'
                     },
                     {
                         text: '杨朝军',
@@ -83,6 +83,11 @@ module.exports = {
                         '/share/qinlin/js',
                         '/share/qinlin/vue',
                         '/share/qinlin/css'
+                    ]
+                },{
+                    title: "浮生若梦",
+                    children: [
+                        '/share/goujg/one'
                     ]
                 }
             ],
