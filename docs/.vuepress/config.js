@@ -94,8 +94,7 @@ module.exports = {
                 },
 				{
 					title: "浮生若梦",
-					children: [
-						'/share/goujg/one'
+					children: ['/share/goujg/one']
 				}
             ],
             '/standard': [{ //文档规范
